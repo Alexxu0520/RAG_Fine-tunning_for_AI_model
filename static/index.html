@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RDR2 Model Compare</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+      <header class="hero">
+        <h1>RDR2 Model Compare</h1>
+        <p>Compare Base, RAG, LoRA, and LoRA+RAG answers from your local pipeline.</p>
+      </header>
+
+      <section class="panel">
+        <label for="question">Question</label>
+        <textarea id="question" rows="4" placeholder="Ask something like: Where is Saint Denis?"></textarea>
+
+        <div class="row">
+          <div class="field">
+            <label for="mode">Mode</label>
+            <select id="mode">
+              <option value="all">all</option>
+              <option value="base">base</option>
+              <option value="base_rag">base_rag</option>
+              <option value="base_rag_no_rerank">base_rag_no_rerank</option>
+              <option value="lora">lora</option>
+              <option value="lora_rag">lora_rag</option>
+              <option value="lora_rag_no_rerank">lora_rag_no_rerank</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="adapterPath">Adapter Path</label>
+            <input id="adapterPath" type="text" value="outputs/qwen25_rdr2_lora" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="askBtn">Run</button>
+          <button id="exampleBtn" class="secondary">Use Example</button>
+        </div>
+
+        <div id="status" class="status"></div>
+      </section>
+
+      <section id="results" class="results"></section>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

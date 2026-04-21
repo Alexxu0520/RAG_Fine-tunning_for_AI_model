@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Logs
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment / secrets
+.env
+.env.*
+*.env
+
+# Model / training outputs
+outputs/
+lora_data/
+chroma_db/
+
+# Raw or generated data
+raw_docs/
+evaluation_results.json
+
+# Temporary / archive folders
+old/
+
+# Python test / cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# FastAPI / local app artifacts
+*.sqlite3
+
+# Keep git metadata itself tracked by Git, do not ignore .git/
