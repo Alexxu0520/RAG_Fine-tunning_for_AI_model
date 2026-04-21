@@ -96,7 +96,7 @@ scrape_rdr2_root.py
 prepare_rag_json.py
 build_rag_from_jsonl.py
 
-prepare_lora_json_llm_qwen3b_v2.py
+python prepare_lora_json_llm.py
 train_lora_patched.py
 
 infer_compare_all.py
@@ -166,7 +166,7 @@ sentence-transformers/all-MiniLM-L6-v2
 
 ### 4. Generate LoRA training dataset
 
-python prepare_lora_json_llm_qwen3b_v2.py --input raw_docs/rdr2_root_raw.jsonl
+python prepare_lora_json_llm.py --input raw_docs/rdr2_root_raw.jsonl
 
 Outputs:
 
