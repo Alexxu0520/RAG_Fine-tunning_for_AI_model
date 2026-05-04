@@ -9,8 +9,10 @@ from infer_compare_all import (
     ADAPTER_PATH,
     answer_base_only,
     answer_base_with_rag,
+    answer_base_with_hybrid_rag,
     answer_lora_only,
     answer_lora_with_rag,
+    answer_lora_with_hybrid_rag,
     run_all,
 )
 
@@ -92,6 +94,22 @@ def ask(req: AskRequest):
                 "mode": "lora_rag_no_rerank",
                 "results": [
                     {"name": "lora_rag_no_rerank", "answer": answer_lora_with_rag(question, adapter_path=adapter_path, use_reranker=False)}
+                ],
+            }
+
+        elif req.mode == "base_hybrid_rag":
+            return {
+                "mode": "base_hybrid_rag",
+                "results": [
+                    {"name": "base_hybrid_rag", "answer": answer_base_with_hybrid_rag(question)}
+                ],
+            }
+
+        elif req.mode == "lora_hybrid_rag":
+            return {
+                "mode": "lora_hybrid_rag",
+                "results": [
+                    {"name": "lora_hybrid_rag", "answer": answer_lora_with_hybrid_rag(question, adapter_path=adapter_path)}
                 ],
             }
 

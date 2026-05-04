@@ -271,8 +271,10 @@ def run_all(question: str, adapter_path: str):
     results = []
     results.append(("base", answer_base_only(question)))
     results.append(("base_rag", answer_base_with_rag(question, use_reranker=True)))
+    results.append(("base_hybrid_rag", answer_base_with_hybrid_rag(question)))
     results.append(("lora", answer_lora_only(question, adapter_path=adapter_path)))
     results.append(("lora_rag", answer_lora_with_rag(question, adapter_path=adapter_path, use_reranker=True)))
+    results.append(("lora_hybrid_rag", answer_lora_with_hybrid_rag(question, adapter_path=adapter_path)))
     return results
 
 def main():
