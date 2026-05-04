@@ -47,6 +47,7 @@ Page-type specific guidance:
 - For persons: ask about their role, affiliations, and fate.
 - For locations: ask about where it is and what can be found or done there.
 - For items/things: ask about purpose, where to find it, or how to use it.
+- For newspaper articles, letters, poems, and in-game documents: do NOT ask "Who wrote the article?" or "What is the main topic of the article?" Instead, ask about the specific events, people, or places described in the content. Always name the subject explicitly in the question — never use bare phrases like "the article", "the poem", "the letter", or "the story".
 
 Answer rules:
 - Base everything only on the provided title, categories, and excerpt. Do not invent facts.
@@ -54,11 +55,12 @@ Answer rules:
 - Answers must be complete sentences, not fragments or single words.
 - Answers must be short: 1 to 2 sentences max.
 - If a question asks "where", the answer must contain location information.
-- If a question asks "who", the answer must clearly identify the person.
+- If a question asks "who", the answer must clearly identify the person by name, not as "the protagonist", "the player", or "the main character".
 - If the question asks what happens after X, the answer must describe what comes after X, not repeat X.
 - Do not write an answer that simply restates the question.
 - Do not copy raw wiki formatting or template junk.
 - Do not include section headers like "Mission Appearances", "Gallery", "References", or "Related Content".
+- Do not use the words "excerpt", "article", "page", or "protagonist" in any answer.
 """
 
 BAD_PAGE_PATTERNS = [
@@ -152,6 +154,17 @@ def clean_text(text: str) -> str:
     text = re.sub(r"\s+,", ",", text)
     text = re.sub(r"\n{2,}", "\n", text)
     return text.strip()
+
+
+DOCUMENT_CATEGORY_KEYS = {"documents", "letters", "newspaper_articles", "poems", "notes"}
+DOCUMENT_TITLE_KEYS = ("article", "letter", "poem", "gazette", "newspaper", "note", "pamphlet")
+
+def is_document_page(title: str, categories: List[str]) -> bool:
+    cat_low = " ".join(categories).lower()
+    if any(k in cat_low for k in DOCUMENT_CATEGORY_KEYS):
+        return True
+    title_low = title.lower()
+    return any(k in title_low for k in DOCUMENT_TITLE_KEYS)
 
 
 def fallback_page_type(title: str, categories: List[str], text: str) -> str:
@@ -289,9 +302,17 @@ class LLMGenerator:
     @torch.inference_mode()
     def generate_structured(self, title: str, categories: List[str], cleaned_text: str) -> Dict[str, Any]:
         excerpt = _prose_excerpt(cleaned_text, max_chars=2600)
+        doc_hint = (
+            f"\nNote: This page is an in-game document (newspaper article, letter, or poem). "
+            f"Do NOT ask generic questions like 'Who wrote the article?' or 'What is the main topic?'. "
+            f"Ask about specific events, people, or places described in the content. "
+            f"Always refer to the subject by name ('{title}'), never as 'the article', 'the poem', or 'the letter'.\n"
+            if is_document_page(title, categories) else ""
+        )
         user_prompt = (
             f"Title: {title}\n"
             f"Categories: {categories}\n"
+            f"{doc_hint}"
             f"Excerpt:\n{excerpt}\n"
         )
         messages = [

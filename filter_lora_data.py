@@ -18,9 +18,21 @@ BAD_QUESTION_GENERIC = re.compile(
     r"^(who wrote the (article|letter|newspaper|poem)"
     r"|what is the main topic of the (article|page)"
     r"|what is the (article|page|item) about"
+    r"|what does the (article|poem|letter|story) (say|describe|mention|tell)"
+    r"|what is (described|mentioned) in the (article|poem|letter|story)"
     r"|who is the main character (in|of) (this|the) (mission|article|page)"
     r"|what is the (main )?purpose of (this|the)"
     r")\??$",
+    re.IGNORECASE,
+)
+
+BAD_QUESTION_BARE_DOC = re.compile(
+    r"\b(the article|the poem|the letter|the story|the newspaper|the excerpt)\b",
+    re.IGNORECASE,
+)
+
+BAD_QUESTION_GOLD_MEDAL = re.compile(
+    r"\bgold medal\b",
     re.IGNORECASE,
 )
 
@@ -34,10 +46,19 @@ BAD_ANSWER_FRAGMENTS = re.compile(
     re.IGNORECASE,
 )
 
-# Answer is suspiciously short (fewer than 5 words and no period — likely a fragment)
+PROTAGONIST_IN_ANSWER = re.compile(
+    r"\bthe protagonist\b|\bthe player\b|\bthe main character\b",
+    re.IGNORECASE,
+)
+
+EXCERPT_ARTIFACT = re.compile(
+    r"\bexcerpt\b|\bthe article\b|\bthe page\b",
+    re.IGNORECASE,
+)
+
 def is_fragment(answer: str) -> bool:
     words = answer.split()
-    return len(words) < 5 and not answer.endswith(".")
+    return len(words) < 8
 
 # ── Question–answer alignment ──────────────────────────────────────────────────
 
@@ -78,10 +99,18 @@ def should_drop(question: str, answer: str, title: str) -> tuple[bool, str]:
         return True, "template_question_name"
     if BAD_QUESTION_GENERIC.match(question.strip()):
         return True, "template_question_generic"
+    if BAD_QUESTION_BARE_DOC.search(question.strip()):
+        return True, "question_bare_document_reference"
+    if BAD_QUESTION_GOLD_MEDAL.search(question.strip()):
+        return True, "question_gold_medal"
     if BAD_QUESTION_WHATIS.match(question.strip()):
         return True, "template_question_whatis"
     if BAD_ANSWER_FRAGMENTS.match(answer.strip()):
         return True, "bad_answer_fragment_or_uncertain"
+    if PROTAGONIST_IN_ANSWER.search(answer):
+        return True, "answer_uses_protagonist_placeholder"
+    if EXCERPT_ARTIFACT.search(answer):
+        return True, "answer_contains_artifact"
     if is_fragment(answer):
         return True, "answer_too_short"
     if echoes_title(question, answer, title):
