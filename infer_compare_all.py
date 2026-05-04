@@ -2,6 +2,7 @@ import argparse
 import re
 import chromadb
 import torch
+from rank_bm25 import BM25Okapi
 from peft import PeftModel
 from sentence_transformers import CrossEncoder, SentenceTransformer
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
@@ -19,6 +20,8 @@ _lora_model = None
 _embedder = None
 _reranker = None
 _collection = None
+_bm25_index = None
+_bm25_chunks = []
 
 def strip_source_page(text: str) -> str:
     text = re.sub(r"\n\s*Source page:\s*https?://\S+\s*$", "", text, flags=re.IGNORECASE)
@@ -82,6 +85,77 @@ def get_collection():
         client = chromadb.PersistentClient(path=CHROMA_DIR)
         _collection = client.get_collection(COLLECTION_NAME)
     return _collection
+
+def _tokenize(text: str):
+    return re.findall(r"[a-z0-9']+", text.lower())
+
+
+def get_bm25_index():
+    global _bm25_index, _bm25_chunks
+    if _bm25_index is not None:
+        return _bm25_index, _bm25_chunks
+    collection = get_collection()
+    result = collection.get(include=["documents", "metadatas"])
+    _bm25_chunks = [
+        {"text": doc, "metadata": meta or {}}
+        for doc, meta in zip(result["documents"], result["metadatas"])
+    ]
+    _bm25_index = BM25Okapi([_tokenize(c["text"]) for c in _bm25_chunks])
+    return _bm25_index, _bm25_chunks
+
+
+def retrieve_chunks_hybrid(question: str, n_dense: int = 10, n_bm25: int = 10, top_n: int = 6):
+    # Dense
+    embedder = get_embedder()
+    collection = get_collection()
+    q_emb = embedder.encode([question])[0].tolist()
+    dense_results = collection.query(
+        query_embeddings=[q_emb],
+        n_results=n_dense,
+        include=["documents", "metadatas"],
+    )
+    dense_chunks = [
+        {"text": d, "metadata": m}
+        for d, m in zip(dense_results["documents"][0], dense_results["metadatas"][0])
+    ]
+
+    # BM25
+    bm25, all_chunks = get_bm25_index()
+    import numpy as np
+    bm25_scores = bm25.get_scores(_tokenize(question))
+    bm25_top_indices = bm25_scores.argsort()[::-1][:n_bm25].tolist()
+    bm25_chunks = [all_chunks[i] for i in bm25_top_indices]
+
+    # Merge into pool keyed by text prefix
+    pool = {}
+    for chunk in dense_chunks:
+        pool[chunk["text"][:120]] = chunk
+    for chunk in bm25_chunks:
+        pool.setdefault(chunk["text"][:120], chunk)
+
+    pool_keys = list(pool.keys())
+
+    def make_ranking(chunks):
+        ranking = []
+        for chunk in chunks:
+            key = chunk["text"][:120]
+            if key in pool_keys:
+                ranking.append(pool_keys.index(key))
+        return ranking
+
+    dense_ranking = make_ranking(dense_chunks)
+    bm25_ranking = make_ranking(bm25_chunks)
+
+    # RRF
+    k = 60
+    scores = {}
+    for ranking in [dense_ranking, bm25_ranking]:
+        for rank, idx in enumerate(ranking):
+            scores[idx] = scores.get(idx, 0.0) + 1.0 / (k + rank + 1)
+
+    fused = sorted(scores.items(), key=lambda x: -x[1])
+    return [pool[pool_keys[idx]] for idx, _ in fused[:top_n]]
+
 
 def retrieve_chunks(question: str, top_k: int = 6):
     embedder = get_embedder()
@@ -176,6 +250,23 @@ def answer_lora_with_rag(
     grounded_prompt = build_grounded_prompt(question, chunks)
     return strip_source_page(generate_answer(grounded_prompt, model))
 
+
+def answer_base_with_hybrid_rag(question: str, top_n: int = 3):
+    model = get_base_model()
+    chunks = retrieve_chunks_hybrid(question, top_n=6)
+    chunks = rerank_chunks(question, chunks, top_n=top_n)
+    grounded_prompt = build_grounded_prompt(question, chunks)
+    return strip_source_page(generate_answer(grounded_prompt, model))
+
+
+def answer_lora_with_hybrid_rag(question: str, adapter_path: str = ADAPTER_PATH, top_n: int = 3):
+    model = get_lora_model(adapter_path)
+    chunks = retrieve_chunks_hybrid(question, top_n=6)
+    chunks = rerank_chunks(question, chunks, top_n=top_n)
+    grounded_prompt = build_grounded_prompt(question, chunks)
+    return strip_source_page(generate_answer(grounded_prompt, model))
+
+
 def run_all(question: str, adapter_path: str):
     results = []
     results.append(("base", answer_base_only(question)))
@@ -190,7 +281,8 @@ def main():
     parser.add_argument("--adapter-path", default=ADAPTER_PATH)
     parser.add_argument(
         "--mode",
-        choices=["base", "base_rag", "base_rag_no_rerank", "lora", "lora_rag", "lora_rag_no_rerank", "all"],
+        choices=["base", "base_rag", "base_rag_no_rerank", "lora", "lora_rag", "lora_rag_no_rerank",
+                 "base_hybrid_rag", "lora_hybrid_rag", "all"],
         default="lora",
     )
     args = parser.parse_args()
@@ -217,6 +309,14 @@ def main():
         print(answer)
     elif args.mode == "lora_rag_no_rerank":
         answer = answer_lora_with_rag(args.question, adapter_path=args.adapter_path, use_reranker=False)
+        print("\nANSWER:\n")
+        print(answer)
+    elif args.mode == "base_hybrid_rag":
+        answer = answer_base_with_hybrid_rag(args.question)
+        print("\nANSWER:\n")
+        print(answer)
+    elif args.mode == "lora_hybrid_rag":
+        answer = answer_lora_with_hybrid_rag(args.question, adapter_path=args.adapter_path)
         print("\nANSWER:\n")
         print(answer)
     else:

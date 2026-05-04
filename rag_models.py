@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
-from typing import Any, Dict, List, Sequence
+from typing import Any, Dict, List, Sequence, Tuple
 
 import chromadb
 import torch
+from rank_bm25 import BM25Okapi
 from sentence_transformers import CrossEncoder, SentenceTransformer
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -26,6 +28,8 @@ _generation_model = None
 _generation_tokenizer = None
 _embed_model = None
 _reranker_model = None
+_bm25_index: BM25Okapi | None = None
+_bm25_chunks: List[RetrievedChunk] = []
 
 
 def get_tokenizer():
@@ -68,6 +72,98 @@ def get_collection():
     client = chromadb.PersistentClient(path=CHROMA_DIR)
     return client.get_collection(name=COLLECTION_NAME)
 
+
+def _tokenize(text: str) -> List[str]:
+    return re.findall(r"[a-z0-9']+", text.lower())
+
+
+def get_bm25_index() -> Tuple[BM25Okapi, List[RetrievedChunk]]:
+    global _bm25_index, _bm25_chunks
+    if _bm25_index is not None:
+        return _bm25_index, _bm25_chunks
+
+    collection = get_collection()
+    result = collection.get(include=["documents", "metadatas"])
+    docs = result["documents"]
+    metas = result["metadatas"]
+
+    _bm25_chunks = [
+        RetrievedChunk(text=doc, metadata=meta or {})
+        for doc, meta in zip(docs, metas)
+    ]
+    tokenized = [_tokenize(c.text) for c in _bm25_chunks]
+    _bm25_index = BM25Okapi(tokenized)
+    return _bm25_index, _bm25_chunks
+
+
+def _reciprocal_rank_fusion(
+    rankings: List[List[int]], k: int = 60
+) -> List[Tuple[int, float]]:
+    scores: Dict[int, float] = {}
+    for ranking in rankings:
+        for rank, idx in enumerate(ranking):
+            scores[idx] = scores.get(idx, 0.0) + 1.0 / (k + rank + 1)
+    return sorted(scores.items(), key=lambda x: -x[1])
+
+
+def retrieve_chunks_hybrid(
+    question: str,
+    n_dense: int = 10,
+    n_bm25: int = 10,
+    top_n: int = 6,
+) -> List[RetrievedChunk]:
+    # Dense retrieval
+    collection = get_collection()
+    embed_model = get_embed_model()
+    query_embedding = embed_model.encode([question]).tolist()[0]
+    dense_results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=n_dense,
+        include=["documents", "metadatas", "distances"],
+    )
+    dense_docs = dense_results["documents"][0]
+    dense_metas = dense_results["metadatas"][0]
+
+    # BM25 retrieval
+    bm25, all_chunks = get_bm25_index()
+    bm25_scores = bm25.get_scores(_tokenize(question))
+    bm25_top_indices = bm25_scores.argsort()[::-1][:n_bm25].tolist()
+
+    # Build a unified doc pool keyed by (title, text hash)
+    pool: Dict[str, RetrievedChunk] = {}
+
+    for doc, meta in zip(dense_docs, dense_metas):
+        key = doc[:120]
+        pool[key] = RetrievedChunk(text=doc, metadata=meta or {})
+
+    for idx in bm25_top_indices:
+        chunk = all_chunks[idx]
+        key = chunk.text[:120]
+        pool.setdefault(key, chunk)
+
+    pool_keys = list(pool.keys())
+
+    dense_ranking = [pool_keys.index(doc[:120]) for doc in dense_docs if doc[:120] in pool_keys]
+    bm25_ranking = [pool_keys.index(all_chunks[i].text[:120]) for i in bm25_top_indices if all_chunks[i].text[:120] in pool_keys]
+
+    fused = _reciprocal_rank_fusion([dense_ranking, bm25_ranking])
+    top_chunks = [pool[pool_keys[idx]] for idx, _ in fused[:top_n]]
+    return top_chunks
+
+
+def answer_hybrid_reranker(question: str, n_dense: int = 10, n_bm25: int = 10, top_n: int = 2) -> Dict[str, Any]:
+    hybrid_chunks = retrieve_chunks_hybrid(question, n_dense=n_dense, n_bm25=n_bm25, top_n=6)
+    reranked = rerank_chunks(question, hybrid_chunks, top_n=top_n)
+    answer = generate_with_context(question, reranked)
+    return {
+        "model": "hybrid_reranker",
+        "question": question,
+        "answer": answer,
+        "chunks": [
+            {"metadata": c.metadata, "score": c.score, "text": c.text}
+            for c in reranked
+        ],
+    }
 
 
 def ask_qwen(question: str, system_prompt: str | None = None, max_new_tokens: int = 220) -> str:

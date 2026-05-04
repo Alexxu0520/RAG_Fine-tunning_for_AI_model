@@ -46,7 +46,20 @@ def clean_for_rag(text: str) -> str:
     cleaned = []
     cutoff = max(1, int(len(lines) * 0.75))  # only cut on footer markers in last 25%
 
+    skip_quick_answers = False
     for i, line in enumerate(lines):
+        if line == "Quick Answers":
+            skip_quick_answers = True
+            continue
+        if skip_quick_answers:
+            if line in {"History", "Character", "Personality", "Appearance", "Skills", "Relationships"}:
+                skip_quick_answers = False
+            else:
+                continue
+        if line.lower() == "provided by: fandom":
+            continue
+        if line.startswith("What ") and line.endswith("?"):
+            continue
         if any(re.match(rx, line) for rx in DROP_LINE_PATTERNS):
             continue
         if line in LIGHT_DROP_EXACT:
