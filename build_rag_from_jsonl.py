@@ -9,10 +9,11 @@ CHROMA_DIR = "chroma_db"
 COLLECTION_NAME = "rdr2"
 MAX_CHROMA_BATCH = 5000
 CHUNK_SIZE = 700
+CHUNK_OVERLAP = 150
 EMBED_BATCH_SIZE = 32
 
 
-def chunk_text(text: str, max_chars: int = CHUNK_SIZE):
+def chunk_text(text: str, max_chars: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP):
     paragraphs = [p.strip() for p in text.split("\n") if p.strip()]
     chunks = []
     current = ""
@@ -23,7 +24,11 @@ def chunk_text(text: str, max_chars: int = CHUNK_SIZE):
         else:
             if current.strip():
                 chunks.append(current.strip())
-            current = para + "\n"
+                # carry the tail of the previous chunk into the next one
+                tail = current[-overlap:].strip()
+                current = (tail + "\n" + para + "\n") if tail else (para + "\n")
+            else:
+                current = para + "\n"
 
     if current.strip():
         chunks.append(current.strip())
@@ -65,6 +70,10 @@ def main():
 
             chunks = chunk_text(text)
             for i, chunk in enumerate(chunks):
+                # skip navigation/ToC chunks (>60% of lines are very short)
+                lines = [l for l in chunk.splitlines() if l.strip()]
+                if lines and sum(1 for l in lines if len(l) < 30) / len(lines) > 0.6:
+                    continue
                 all_chunks.append(chunk)
                 all_metadatas.append({
                     "title": title,

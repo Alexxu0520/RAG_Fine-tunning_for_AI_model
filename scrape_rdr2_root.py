@@ -54,12 +54,30 @@ def should_skip_title(title: str) -> bool:
         return True
     return any(x in lowered for x in SKIP_TITLE_CONTAINS)
 
+BLOCK_TAGS = {"p", "div", "li", "h1", "h2", "h3", "h4", "h5", "h6", "br", "tr", "section", "article", "header", "footer", "dd", "dt"}
+
 def html_to_text(html: str) -> str:
     soup = BeautifulSoup(html, "html.parser")
+
+    # Remove ToC div so it never ends up in the raw text
+    for toc in soup.find_all(id="toc"):
+        toc.decompose()
+    for toc in soup.find_all(class_="toc"):
+        toc.decompose()
+
     for tag in soup(["script", "style", "sup", "noscript", "figure", "img", "aside", "nav", "table"]):
         tag.decompose()
 
-    text = soup.get_text("\n")
+    # Remove wiki edit-section links — these produce [] artifacts after headings
+    for tag in soup.find_all(class_="mw-editsection"):
+        tag.decompose()
+
+    # Insert \n after each block element so inline content flows together on one line.
+    # Using get_text("") (no separator) so ONLY these inserted \n chars create line breaks.
+    for tag in soup.find_all(BLOCK_TAGS):
+        tag.append("\n")
+
+    text = soup.get_text("")
     lines = [line.strip() for line in text.splitlines() if line.strip()]
 
     deduped = []

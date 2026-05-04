@@ -44,13 +44,14 @@ def clean_for_rag(text: str) -> str:
 
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
     cleaned = []
+    cutoff = max(1, int(len(lines) * 0.75))  # only cut on footer markers in last 25%
 
-    for line in lines:
+    for i, line in enumerate(lines):
         if any(re.match(rx, line) for rx in DROP_LINE_PATTERNS):
             continue
         if line in LIGHT_DROP_EXACT:
             continue
-        if line in FOOTER_MARKERS:
+        if line in FOOTER_MARKERS and i >= cutoff:
             break
         cleaned.append(line)
 
@@ -67,7 +68,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="raw_docs/rdr2_root_raw.jsonl")
     parser.add_argument("--output", default="raw_docs/rdr2_rag.jsonl")
-    parser.add_argument("--min-chars", type=int, default=180)
+    parser.add_argument("--min-chars", type=int, default=140)
     parser.add_argument("--max-records", type=int, default=None)
     args = parser.parse_args()
 
