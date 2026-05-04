@@ -7,9 +7,10 @@ from typing import Any, Dict, List, Optional
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-DEFAULT_GENERATOR_MODEL = "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+DEFAULT_GENERATOR_MODEL = "Qwen/Qwen2.5-3B-Instruct"
 
-SYSTEM_PROMPT = """You are helping prepare high-quality supervised fine-tuning data for a Red Dead Redemption 2 assistant.
+SYSTEM_PROMPT = """You are a grizzled frontier storyteller who knows Red Dead Redemption 2 inside and out.
+Your job is to prepare high-quality supervised fine-tuning data for a Red Dead Redemption 2 assistant.
 
 Given a wiki-derived page, do these things:
 1. Infer the page type.
@@ -26,18 +27,38 @@ Return ONLY valid JSON with this schema:
   ]
 }
 
-Rules:
-- Base everything only on the provided title, categories, and excerpt.
-- Do not invent facts not present in the text.
+Voice and style:
+- Write in a plain-spoken, direct Western voice. Avoid formal or academic language.
+- Avoid words like "objective", "protagonist", "mechanic", "excerpt", "article".
+- Replace "main objective" with "what you need to do". Use character names instead of "protagonist".
+
+Question rules:
+- The 3 questions must use different question words. Use a mix of Who / What / Where / When / How / Why.
+- Do not start more than one question with the same word.
+- Do not ask "What is the name of the mission/item/article/page?"
+- Do not write a question whose answer is just the page title.
+- Do not write questions of the form "What is [title]?" where the answer is just "[title] is a [type]."
+- Do not ask questions that can be answered without reading the excerpt.
+- Each question must require reading the excerpt to answer.
+- Questions must ask about specific facts: events, locations, characters, or outcomes.
+
+Page-type specific guidance:
+- For missions: ask about plot events, characters involved, and outcomes. Do NOT ask about gold medal conditions, time limits, or headshot requirements.
+- For persons: ask about their role, affiliations, and fate.
+- For locations: ask about where it is and what can be found or done there.
+- For items/things: ask about purpose, where to find it, or how to use it.
+
+Answer rules:
+- Base everything only on the provided title, categories, and excerpt. Do not invent facts.
 - Each question must have its own matching answer.
+- Answers must be complete sentences, not fragments or single words.
 - Answers must be short: 1 to 2 sentences max.
-- Do not include section headers like "Mission Appearances", "Part I", "Part II", "Part III", "Deaths", "Tracking Progress", "Gallery", "References", or "Related Content".
-- Do not copy raw wiki formatting or template junk.
-- Use natural user-style questions.
-- If the page is ambiguous, choose the safest type and keep questions generic.
-- If a question asks "where", the answer must actually contain location information.
+- If a question asks "where", the answer must contain location information.
 - If a question asks "who", the answer must clearly identify the person.
-- Keep answers concise, factual, and readable.
+- If the question asks what happens after X, the answer must describe what comes after X, not repeat X.
+- Do not write an answer that simply restates the question.
+- Do not copy raw wiki formatting or template junk.
+- Do not include section headers like "Mission Appearances", "Gallery", "References", or "Related Content".
 """
 
 BAD_PAGE_PATTERNS = [
@@ -52,7 +73,7 @@ DROP_LINE_PATTERNS = [
     r"^\]$",
     r"^\[\s*\]$",
     r"^\d+(\.\d+)*$",
-    r"^(Contents?|Navigation|Related Content|Video Walkthrough|References|Gallery)$",
+    r"^(Contents?)$",
     r"^(History|Overview|Description|Walkthrough|Story|Background|Interactions)$",
     r"^(Trivia|Quotes|Video|Text|Content)$",
     r"^(Mission appearances?|Missable Items in the Mission|Trophies/Achievements)$",
@@ -71,43 +92,7 @@ INFOBOX_LABELS = {
 
 ALLOWED_PAGE_TYPES = {"person", "mission", "achievement", "collectible", "system", "location", "thing"}
 
-FALLBACK_PROMPTS = {
-    "person": [
-        "Who is {title} in Red Dead Redemption 2?",
-        "What role does {title} have in Red Dead Redemption 2?",
-        "Summarize {title} in Red Dead Redemption 2.",
-    ],
-    "mission": [
-        "What is the mission {title} in Red Dead Redemption 2?",
-        "What happens in the mission {title}?",
-        "Summarize the mission {title}.",
-    ],
-    "achievement": [
-        "What is {title} in Red Dead Redemption 2?",
-        "How does {title} work in RDR2?",
-        "What do I need to know about {title} in Red Dead Redemption 2?",
-    ],
-    "collectible": [
-        "What is {title} in Red Dead Redemption 2?",
-        "How does {title} work in RDR2?",
-        "What reward is tied to {title} in Red Dead Redemption 2?",
-    ],
-    "system": [
-        "What is {title} in Red Dead Redemption 2?",
-        "How does {title} work in RDR2?",
-        "What should I know about {title} in Red Dead Redemption 2?",
-    ],
-    "location": [
-        "What is {title} in Red Dead Redemption 2?",
-        "Where is {title} in Red Dead Redemption 2?",
-        "What happens at {title} in Red Dead Redemption 2?",
-    ],
-    "thing": [
-        "What is {title} in Red Dead Redemption 2?",
-        "Explain {title} in RDR2.",
-        "Summarize {title} in Red Dead Redemption 2.",
-    ],
-}
+FOOTER_MARKERS = {"Related Content", "Navigation", "Video Walkthrough", "References", "Gallery"}
 
 
 def normalize_whitespace(text: str) -> str:
@@ -141,15 +126,23 @@ def clean_text(text: str) -> str:
             continue
         if any(re.match(rx, line) for rx in DROP_LINE_PATTERNS):
             continue
-        if line.lower() in {"red dead redemption 2", "red dead online", "provided by: fandom"}:
+        # Only drop game-title lines that stand alone as a header (first line or
+        # after a blank), not when they complete a sentence on the previous line.
+        if line.lower() == "provided by: fandom":
+            continue
+        if line.lower() in {"red dead redemption 2", "red dead online", "red dead revolver"}:
+            prev = cleaned[-1] if cleaned else ""
+            if prev and prev[-1] not in ".!?,;:":
+                cleaned.append(line)
             continue
         if line.startswith("What ") and line.endswith("?"):
             continue
         cleaned.append(line)
 
+    cutoff = max(1, int(len(cleaned) * 0.75))
     trimmed: List[str] = []
-    for line in cleaned:
-        if line in {"Related Content", "Navigation", "Video Walkthrough", "References", "Gallery"}:
+    for i, line in enumerate(cleaned):
+        if line in FOOTER_MARKERS and i >= cutoff:
             break
         trimmed.append(line)
 
@@ -159,30 +152,6 @@ def clean_text(text: str) -> str:
     text = re.sub(r"\s+,", ",", text)
     text = re.sub(r"\n{2,}", "\n", text)
     return text.strip()
-
-
-def split_sentences(text: str) -> List[str]:
-    text = text.replace("\n", " ")
-    parts = re.split(r"(?<=[.!?])\s+", text)
-    return [p.strip() for p in parts if p.strip()]
-
-
-def first_n_sentences(text: str, n: int = 2, max_chars: int = 400) -> str:
-    sentences = split_sentences(text)
-    out: List[str] = []
-    total = 0
-    for s in sentences:
-        if len(s) < 20:
-            continue
-        if total + len(s) + 1 > max_chars:
-            break
-        out.append(s)
-        total += len(s) + 1
-        if len(out) >= n:
-            break
-    if not out:
-        return text[:max_chars].strip()
-    return " ".join(out).strip()
 
 
 def fallback_page_type(title: str, categories: List[str], text: str) -> str:
@@ -230,11 +199,6 @@ def fallback_page_type(title: str, categories: List[str], text: str) -> str:
     return "thing"
 
 
-def fallback_questions(title: str, page_type: str) -> List[str]:
-    prompts = FALLBACK_PROMPTS.get(page_type, FALLBACK_PROMPTS["thing"])
-    return [p.format(title=title) for p in prompts]
-
-
 def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
     text = text.strip()
     match = re.search(r"\{.*\}", text, flags=re.DOTALL)
@@ -244,48 +208,6 @@ def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
         return json.loads(match.group(0))
     except json.JSONDecodeError:
         return None
-
-
-def looks_bad_question(q: str, title: str) -> bool:
-    q_clean = q.strip()
-    if not q_clean:
-        return True
-    if q_clean in {"...", ".", ".."}:
-        return True
-    if len(q_clean) < 8:
-        return True
-    if "??" in q_clean:
-        return True
-    if q_clean.lower() == title.lower():
-        return True
-    if not q_clean.endswith("?"):
-        return True
-    return False
-
-
-def looks_bad_answer(a: str) -> bool:
-    a = a.strip()
-    if not a:
-        return True
-    if len(a) < 20:
-        return True
-
-    bad_phrases = [
-        "mission appearances",
-        "part i",
-        "part ii",
-        "part iii",
-        "deaths",
-        "gallery",
-        "references",
-        "related content",
-        "video walkthrough",
-        "tracking progress",
-    ]
-    low = a.lower()
-    if any(x in low for x in bad_phrases):
-        return True
-    return False
 
 
 def clean_generated_answer(a: str) -> str:
@@ -308,22 +230,6 @@ def clean_generated_answer(a: str) -> str:
     return a
 
 
-def answer_supports_question(question: str, answer: str, title: str) -> bool:
-    q = question.lower()
-    a = answer.lower()
-
-    if "where" in q and not any(x in a for x in ["located", "found", "in ", "at ", "near ", "southwest", "north", "south", "east", "west"]):
-        return False
-    if "who" in q and not any(x in a for x in [" is ", " was ", "character", "person", "protagonist", "antagonist", "gang member", "outlaw"]):
-        return False
-    if "how many" in q and not re.search(r"\b\d+\b", a):
-        return False
-    if title.lower() not in q and len(q.split()) < 4:
-        return False
-
-    return True
-
-
 def validate_generation(data: Dict[str, Any], title: str, categories: List[str], cleaned_text: str) -> Dict[str, Any]:
     page_type = str(data.get("page_type", "")).strip().lower()
     if page_type not in ALLOWED_PAGE_TYPES:
@@ -343,27 +249,20 @@ def validate_generation(data: Dict[str, Any], title: str, categories: List[str],
         a = str(pair.get("answer", "")).strip()
         a = clean_generated_answer(a)
 
-        if looks_bad_question(q, title):
-            continue
-        if looks_bad_answer(a):
-            continue
-        if not answer_supports_question(q, a, title):
-            continue
 
         good_pairs.append({
             "question": q,
             "answer": a,
         })
 
-    if len(good_pairs) < 3:
-        fallback_qs = fallback_questions(title, page_type)
-        fallback_a = first_n_sentences(cleaned_text, n=2, max_chars=400)
-        good_pairs = [{"question": q, "answer": fallback_a} for q in fallback_qs[:3]]
-
     return {
         "page_type": page_type,
-        "qa_pairs": good_pairs[:3],
+        "qa_pairs": good_pairs,
     }
+
+
+def _prose_excerpt(text: str, max_chars: int = 2600) -> str:
+    return text.strip()
 
 
 class LLMGenerator:
@@ -389,7 +288,7 @@ class LLMGenerator:
 
     @torch.inference_mode()
     def generate_structured(self, title: str, categories: List[str], cleaned_text: str) -> Dict[str, Any]:
-        excerpt = cleaned_text[:2600]
+        excerpt = _prose_excerpt(cleaned_text, max_chars=2600)
         user_prompt = (
             f"Title: {title}\n"
             f"Categories: {categories}\n"
@@ -437,9 +336,6 @@ def build_training_examples(
     for pair in qa_pairs:
         q = pair["question"].strip()
         a = pair["answer"].strip()
-
-        if url:
-            a = f"{a}\n\nSource page: {url}"
 
         examples.append({
             "messages": [
