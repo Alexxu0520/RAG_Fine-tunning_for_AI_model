@@ -8,7 +8,7 @@ from sentence_transformers import CrossEncoder, SentenceTransformer
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 BASE_MODEL = "Qwen/Qwen2.5-3B-Instruct"
-ADAPTER_PATH = "outputs/qwen25_rdr2_lora"
+ADAPTER_PATH = "outputs/qwen25_rdr2_lora_v2"
 CHROMA_DIR = "chroma_db"
 COLLECTION_NAME = "rdr2"
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"

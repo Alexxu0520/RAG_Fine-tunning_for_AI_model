@@ -275,7 +275,14 @@ def validate_generation(data: Dict[str, Any], title: str, categories: List[str],
 
 
 def _prose_excerpt(text: str, max_chars: int = 2600) -> str:
-    return text.strip()
+    text = text.strip()
+    if len(text) <= max_chars:
+        return text
+    # Try to cut at a sentence boundary
+    cut = text.rfind(". ", 0, max_chars)
+    if cut == -1:
+        cut = max_chars
+    return text[: cut + 1].strip()
 
 
 class LLMGenerator:
@@ -384,6 +391,8 @@ def main():
     parser.add_argument("--generator-model", default=DEFAULT_GENERATOR_MODEL)
     parser.add_argument("--max-records", type=int, default=None)
     parser.add_argument("--max-new-tokens", type=int, default=320)
+    parser.add_argument("--resume", action="store_true",
+                        help="Append to existing output files, skipping already-processed records")
     parser.add_argument(
         "--system-prompt",
         default="You are a helpful Red Dead Redemption 2 assistant. Answer using accurate in-game and story knowledge. If the answer is uncertain, say what you are unsure about."
@@ -398,13 +407,25 @@ def main():
 
     generator = LLMGenerator(args.generator_model, max_new_tokens=args.max_new_tokens)
 
-    kept_source = 0
+    # Resume: count already-processed source records so we can skip them
+    already_done = 0
+    if args.resume and output_json.exists():
+        with output_json.open("r", encoding="utf-8") as f:
+            already_done = sum(1 for ln in f if ln.strip())
+        print(f"Resuming: skipping first {already_done} already-processed source records.")
+
+    file_mode = "a" if args.resume else "w"
+
+    kept_source = already_done
     skipped_source = 0
     kept_examples = 0
+    oom_skipped = 0
 
     with input_path.open("r", encoding="utf-8") as fin, \
-         output_json.open("w", encoding="utf-8") as fjson, \
-         output_train.open("w", encoding="utf-8") as ftrain:
+         output_json.open(file_mode, encoding="utf-8") as fjson, \
+         output_train.open(file_mode, encoding="utf-8") as ftrain:
+
+        source_seen = 0  # counts valid (non-empty) source records seen so far
 
         for idx, line in enumerate(fin, start=1):
             if args.max_records is not None and idx > args.max_records:
@@ -423,7 +444,20 @@ def main():
                 skipped_source += 1
                 continue
 
-            result = generator.generate_structured(title, categories, cleaned_text)
+            source_seen += 1
+            if source_seen <= already_done:
+                continue  # skip records we already wrote
+
+            try:
+                result = generator.generate_structured(title, categories, cleaned_text)
+            except torch.cuda.OutOfMemoryError:
+                torch.cuda.empty_cache()
+                oom_skipped += 1
+                print(f"  [OOM] Skipped record {idx}: {title!r}")
+                continue
+            except Exception as e:
+                print(f"  [ERR] Skipped record {idx}: {title!r} — {e}")
+                continue
 
             source_record = {
                 "title": title,
@@ -450,11 +484,12 @@ def main():
                 kept_examples += 1
 
             if idx % 10 == 0:
-                print(f"Processed {idx} records...")
+                print(f"Processed {idx} records (kept={kept_source}, oom_skipped={oom_skipped})...")
 
     print(json.dumps({
         "kept_source_records": kept_source,
         "skipped_source_records": skipped_source,
+        "oom_skipped": oom_skipped,
         "kept_training_examples": kept_examples,
         "output_json": str(output_json),
         "output_train": str(output_train),

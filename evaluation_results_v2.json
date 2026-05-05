@@ -1,0 +1,542 @@
+[
+  {
+    "question": "Who is Arthur Morgan?",
+    "base": {
+      "answer": "Arthur Morgan is one of the most famous non-playable characters (NPCs) in the game Red Dead Redemption 2. He is a significant figure within the Revenants gang, which is a faction of outlaws and former prisoners that you can join if you complete a specific mission early in the game.\n\nArthur Morgan is known for his charisma, charm, and intelligence. He's a skilled horseman, marksman, and strategist. He plays a crucial role in your journey as he acts as your mentor, provides guidance, and helps you navigate the world of Red Dead Redemption 2. However, he also poses a significant risk to the player because of his criminal background. \n\nArthur Morgan is a key part of the narrative and adds depth to the story, making the experience more engaging and immersive. His actions and decisions significantly impact the gameplay, especially if you choose to be part of the Revenants gang.",
+      "seconds": 14.9
+    },
+    "base_rag": {
+      "answer": "Arthur Morgan is a central character and the primary protagonist of Red Dead Redemption 2. He is also known as \"Morgan\" in some contexts, but he is not directly related to the Morgan horse breed mentioned in the third context entry.",
+      "seconds": 6.7
+    },
+    "base_hybrid_rag": {
+      "answer": "Arthur Morgan is a central character and the primary protagonist of Red Dead Redemption 2. He is also the main focus of Arthur Morgan's history and background as detailed in the context provided.",
+      "seconds": 2.6
+    },
+    "lora": {
+      "answer": "Arthur Morgan is the main protagonist of Red Dead Online and a bounty target in Red Dead Redemption 2.",
+      "seconds": 6.1
+    },
+    "lora_rag": {
+      "answer": "Arthur Morgan is a central character and the primary protagonist of Red Dead Redemption 2.",
+      "seconds": 1.6
+    },
+    "lora_hybrid_rag": {
+      "answer": "Arthur Morgan is a central character and the primary protagonist of Red Dead Redemption 2.",
+      "seconds": 1.9
+    }
+  },
+  {
+    "question": "Why does Arthur get tuberculosis?",
+    "base": {
+      "answer": "In Red Dead Redemption 2, Arthur Morgan contracts tuberculosis due to his past as a criminal and his weakened state after years of living on the run and in harsh conditions. Tuberculosis is a disease that can be contracted through prolonged exposure to contaminated air and by individuals with compromised immune systems. \n\nArthur's life has been filled with violence, hardship, and danger, which have taken a significant toll on his physical and mental health. His decision to join Dutch Van der Linde's gang and his subsequent time spent on the run and in hiding further contributed to his poor health.\n\nWhen he finally seeks shelter at a mining town, the environment there is not conducive to his recovery, and he succumbs to the disease. This is one of the many tragic aspects of Arthur's story, illustrating how his life choices and circumstances have led him to this point.",
+      "seconds": 8.5
+    },
+    "base_rag": {
+      "answer": "Arthur gets tuberculosis after being beaten by Thomas Downes, according to his own journal entry. This injury, which resulted from a fight, is believed to have led to his contracting the disease.",
+      "seconds": 1.8
+    },
+    "base_hybrid_rag": {
+      "answer": "Arthur gets tuberculosis after being beaten by Thomas Downes during a fight. This is based on information provided in Arthur's journal entry, which states that he believes Downes' beating was responsible for his contracting tuberculosis. Despite the doctor trying to reassure him and giving advice, Arthur's strong belief in this cause is evident in his actions and words.",
+      "seconds": 3.9
+    },
+    "lora": {
+      "answer": "Arthur gets tuberculosis because he is infected with the disease during a fight at the Saloon in Blackwater.",
+      "seconds": 2.3
+    },
+    "lora_rag": {
+      "answer": "Arthur gets tuberculosis because he contracted the disease from Thomas Downes during a fight.",
+      "seconds": 1.7
+    },
+    "lora_hybrid_rag": {
+      "answer": "Arthur gets tuberculosis after being beaten by Thomas Downes during a fight.",
+      "seconds": 1.2
+    }
+  },
+  {
+    "question": "What is Valentine in Red Dead Redemption 2?",
+    "base": {
+      "answer": "In Red Dead Redemption 2, \"Valentine\" is the name of the main antagonist and the second major character, played by an actor named Adam Pascal. Valentine is a ruthless and cunning outlaw who operates in the post-War of 1865 era. He is known for his charm, intelligence, and ability to manipulate others, which makes him a formidable opponent.\n\nValentine is one of the key antagonists in the game, driving the main story forward. His primary goal is to establish himself as the most powerful outlaw gang in the territory. He often engages in various heists, betrayals, and confrontations with the protagonist Arthur Morgan and his crew, The Vanillas.\n\nThroughout the game, Valentine's influence and power grow, making him a significant threat both to Arthur and other outlaws in the Wild West. His character arc and interactions with Arthur Morgan play a crucial role in shaping the narrative of the game.",
+      "seconds": 9.1
+    },
+    "base_rag": {
+      "answer": "In Red Dead Redemption 2, Valentine is a livestock town located in The Heartlands region of New Hanover. It is situated near the Horseshoe Overlook camp and serves as the starting point for the player character's journey into the game world. Valentine is known for its proximity to the initial campsite after the character's exodus from the frigid mountains, making it a crucial location for the early part of the game.",
+      "seconds": 4.4
+    },
+    "base_hybrid_rag": {
+      "answer": "Valentine in Red Dead Redemption 2 is a livestock town located in the Heartlands region of New Hanover. It is a short distance away from the Horseshoe Overlook camp and serves as a stop for the gang after their journey from the frigid mountains. The town offers various services and amenities, such as saloons, a butcher, a doctor, a general store, a gunsmith, a newspaper stand, a stable, and a hotel.",
+      "seconds": 4.2
+    },
+    "lora": {
+      "answer": "Valentine is the capital of the state of Lemoyne, known for being the largest city and having the most populated area in the region.",
+      "seconds": 2.6
+    },
+    "lora_rag": {
+      "answer": "Valentine is a livestock town featured in Red Dead Redemption 2 and Red Dead Online.",
+      "seconds": 1.7
+    },
+    "lora_hybrid_rag": {
+      "answer": "Valentine is a livestock town in Red Dead Redemption 2 and Red Dead Online.",
+      "seconds": 1.6
+    }
+  },
+  {
+    "question": "What happens in Chapter 1?",
+    "base": {
+      "answer": "In Red Dead Redemption 2, Chapter 1 sets the stage for the main story. This chapter takes place in the Wild West setting of the game, focusing on the character Arthur Morgan, a member of the Dutch van der Linde gang. Here's what typically happens:\n\n1. **Introduction to Arthur Morgan**: You'll start the game as Arthur Morgan, an outlaw in the American Wild West. The first mission will be to join Dutch van der Linde and take over the \"Ranch House\" in the town of Los Verdugos.\n\n2. **Joining the Gang**: You'll have to kill the current owner of the Ranch House, Mr. Blevins, to join the gang. This is your first interaction with other characters in the game.\n\n3. **Building Your Base**: After joining the gang, you'll need to gather supplies, weapons, and build your base of operations. This includes recruiting new members, securing resources, and fortifying your hideout.\n\n4. **Training and Learning**: Arthur will teach you how to navigate the game world, perform various actions (like riding, shooting, and hacking), and interact with the environment. He'll also introduce you to key mechanics and features of the game.\n\n5. **Exploring Los Verdug",
+      "seconds": 12.1
+    },
+    "base_rag": {
+      "answer": "In Chapter 1, no specific chapter description is provided in the given context. Therefore, I cannot definitively state what happens in Chapter 1 based solely on the provided information. The context appears to cover later chapters and missions rather than describing events in the first chapter.",
+      "seconds": 2.6
+    },
+    "base_hybrid_rag": {
+      "answer": "In Chapter 1 of Red Dead Redemption 2, there is no specific information provided in the given context about what happens in Chapter 1. The context primarily discusses missions and events in subsequent chapters and locations. Therefore, based on the provided information, we cannot determine what occurs in Chapter 1.",
+      "seconds": 2.9
+    },
+    "lora": {
+      "answer": "In Chapter 1, Arthur Morgan and John Marston encounter the Lemoyne Raiders in a saloon. They learn that they are being pursued by the law and decide to join forces against the Lemoyne Raiders.",
+      "seconds": 3.7
+    },
+    "lora_rag": {
+      "answer": "In Chapter 1, Arthur Marston learns that Jack is missing and Abigail becomes horrified upon learning he was abducted by the Braithwaites.",
+      "seconds": 2.7
+    },
+    "lora_hybrid_rag": {
+      "answer": "In Chapter 1, Archie Downes helps his mother pack at the Downes Ranch while Arthur collects the rest of the debt.",
+      "seconds": 2.4
+    }
+  },
+  {
+    "question": "Who is Dutch van der Linde?",
+    "base": {
+      "answer": "Dutch van der Linde is one of the major characters in the open-world sandbox game Red Dead Redemption 2. He is the leader of the Van der Linde gang, a group of outlaws and bandits that includes various other characters like Arthur Morgan, Lee Harvey Oswald, and others.\n\nDutch is known for his intelligence, charisma, and ruthless leadership. He was once an officer in the United States Army but defected to become a bandit leader. Throughout the game, you play as Arthur Morgan, who becomes Dutch's trusted henchman. Dutch is often seen as the calm voice of reason within the gang, while Arthur represents the more impulsive side.\n\nDutch's character development plays a significant role in the narrative of the game, and his interactions with Arthur and other characters are central to the story.",
+      "seconds": 7.9
+    },
+    "base_rag": {
+      "answer": "Dutch van der Linde is a recurring character in the Red Dead series, appearing as a central character and the secondary antagonist of Red Dead Redemption, as well as a central character in Red Dead Redemption 2. Dutch was born in the mid-1850s and ran away from home at the age of 15. He founded the Van der Linde gang with Hosea Matthews. Dutch was known for his philosophy of freedom and liberties and his desire to live an independent existence through crime.",
+      "seconds": 5.1
+    },
+    "base_hybrid_rag": {
+      "answer": "Dutch van der Linde is a character in Red Dead Redemption 2. He was born in the mid-1850s and ran away from home at the age of 15. Dutch formed the Van der Linde gang with Hosea Matthews, initially as a partnership based on mutual respect for each other's criminal abilities. Dutch values freedom and liberties, which influenced his philosophy and desire to live independently.",
+      "seconds": 4.1
+    },
+    "lora": {
+      "answer": "Dutch van der Linde is one of the main characters in Red Dead Redemption 2. He is a criminal and a member of Dutch's Gang.",
+      "seconds": 2.8
+    },
+    "lora_rag": {
+      "answer": "Dutch van der Linde is a recurring character in Red Dead Redemption and Red Dead Redemption 2, known for being a central character and the secondary antagonist in both games.",
+      "seconds": 3.3
+    },
+    "lora_hybrid_rag": {
+      "answer": "Dutch van der Linde was born in the mid-1850s to a woman of English descent named Greta and a father of Dutch ancestry somewhere near Philadelphia. He ran away from home at the age of 15 and became a petty criminal. Dutch and Hosea Matthews formed the Van der Linde gang around the mid-1870s.",
+      "seconds": 6.9
+    }
+  },
+  {
+    "question": "What is the Legendary Bear?",
+    "base": {
+      "answer": "The \"Legendary Bear\" is not an official character or part of the story in Red Dead Redemption 2. It seems to be a reference or rumor, possibly related to the game's lore or player-created content. \n\nIn some fan communities and online discussions about the game, players have speculated about various outlaws and legendary characters that might exist beyond the main narrative. The term \"Legendary Bear\" may refer to a fictional outlaw or bandit with a legendary reputation in the Wild West setting of the game.\n\nHowever, without official confirmation from Rockstar Games, this title is not recognized as part of the game's canon. If you're looking for accurate information about the game, you should always check Rockstar Games' official sources or verified community discussions for details.",
+      "seconds": 8.3
+    },
+    "base_rag": {
+      "answer": "The Legendary Bharati Grizzly Bear is a rare animal species in Red Dead Redemption 2 that first appears in the mission \"Exit Pursued by a Bruised Ego.\" This bear is described as larger than any other in the game, with distinctive scars across its face and body. It is an omnivorous animal that feeds on various items including berries, roots, grasses, deer, elk, fish, and carrion. Hunting this animal provides the opportunity to craft the rare Bear Claw Talisman and The Bear Hunter outfit set. It is endemic to O'Creagh's Run, in the Grizzlies East.",
+      "seconds": 6.6
+    },
+    "base_hybrid_rag": {
+      "answer": "The Legendary Bharati Grizzly Bear is a rare and large grizzly bear species in Red Dead Redemption 2. It first appears in the mission \"Exit Pursued by a Bruised Ego.\" This bear is easily identifiable due to its distinctive scars and is an important target for hunters as it can be killed for crafting opportunities. It is one of only two legendary animals that appear in a story mission, alongside the Legendary Bullgator.",
+      "seconds": 5.3
+    },
+    "lora": {
+      "answer": "The Legendary Bear is a rare and elusive animal found in Red Dead Online, specifically in the Big Valley region of West Elizabeth.",
+      "seconds": 2.6
+    },
+    "lora_rag": {
+      "answer": "The Legendary \"Bharati\" Grizzly Bear is a rare species of animal found in Red Dead Redemption 2, endemic to O'Creagh's Run, in the Grizzlies East.",
+      "seconds": 3.7
+    },
+    "lora_hybrid_rag": {
+      "answer": "The Legendary Bharati Grizzly Bear is a rare species of animal found in Red Dead Redemption 2.",
+      "seconds": 1.9
+    }
+  },
+  {
+    "question": "Where is Saint Denis?",
+    "base": {
+      "answer": "Saint Denis is not a location within the game Red Dead Redemption 2. However, it's worth noting that Saint Denis is a real place in Quebec, Canada. It was likely used as inspiration for an area in the game. If you're looking to find Saint Denis in-game, you might be thinking of \"Saint Denis\" which could be a reference to a nearby settlement or outpost, but it's important to clarify that Saint Denis itself is not a specific location in the game. If you have more context about what you're searching for within the game, I'd be happy to help further!",
+      "seconds": 6.7
+    },
+    "base_rag": {
+      "answer": "Saint Denis is a fictional city in Red Dead Redemption 2, located in the Bayou Nwa region, on the banks of the Lannahechee River. It is the capital city of Lemoyne. In real life, there is no city called Saint Denis; instead, it refers to the real-life counterpart of Saint Denis which exists in France.",
+      "seconds": 3.4
+    },
+    "base_hybrid_rag": {
+      "answer": "Saint Denis is located in the Bayou Nwa region of Lemoyne, on the banks of the Lannahechee River.",
+      "seconds": 1.3
+    },
+    "lora": {
+      "answer": "Saint Denis is in the state of Lemoyne and can be reached by traveling south on the main road from Rhodes to Saint Denis.",
+      "seconds": 2.4
+    },
+    "lora_rag": {
+      "answer": "Saint Denis is a major city and the state capital of Lemoyne, located in the Bayou Nwa region, on the banks of the Lannahechee River.",
+      "seconds": 3.8
+    },
+    "lora_hybrid_rag": {
+      "answer": "Saint Denis is a major city and the state capital of Lemoyne, located in the Bayou Nwa region, on the banks of the Lannahechee River.",
+      "seconds": 3.4
+    }
+  },
+  {
+    "question": "What is the Van der Linde gang?",
+    "base": {
+      "answer": "The Van der Linde gang, also known as the Van der Linde family or simply \"the Van der Linde,\" is a notorious outlaw group in the open world of Red Dead Redemption 2. They are one of the major factions that can be interacted with and fought against throughout the game.\n\nThe Van der Lindes are led by Bill Tramper (or Bill 'Cactus Jack' Tramper), who was once part of the original Van der Linde gang. The gang's main goal is to gather diamonds and gold from various locations across the Wild West. They are known for their large, colorful vehicles and their distinctive music.\n\nMembers of the Van der Linde include:\n\n1. **Bill Tramper (Cactus Jack)** - The leader of the Van der Lindes. He has an affinity for music and often plays songs during his interactions.\n   \n2. **Tommy Lucas** - A member of the Van der Lindes and Bill's right-hand man. He is very skilled at shooting and is often seen in the gang's wagon.\n\n3. **Maggie Tramper (Cactus Sue)** - Bill's sister and the leader of the women in the gang. She is a skilled fighter and often helps Bill in combat situations",
+      "seconds": 12.7
+    },
+    "base_rag": {
+      "answer": "The Van der Linde gang, also known as Dutch's Boys, is an outlaw group featured prominently in Red Dead Redemption 2. They are the main faction led by the protagonist. The gang is notorious for their criminal activities, including train holdups, thefts, and attempted bank robberies. Known for their violent history and significant bounties placed on them, the Van der Linde gang is a central element in the game's narrative.",
+      "seconds": 4.0
+    },
+    "base_hybrid_rag": {
+      "answer": "The Van der Linde gang, also known as Dutch's Boys, is an outlaw group featured prominently in Red Dead Redemption 2. They are the main faction of the game, having a significant presence in both Red Dead Redemption and Red Dead Redemption 2. Known for their notorious activities including the Blackwater Robbery, the Van der Linde gang is well-known for its bountiful head. Their history and actions are often referenced in various media forms, making them a recognizable and historically important criminal organization in the Wild West era.",
+      "seconds": 5.7
+    },
+    "lora": {
+      "answer": "The Van der Linde gang is a notorious criminal organization in Red Dead Online, consisting of criminals from all over the world.",
+      "seconds": 2.6
+    },
+    "lora_rag": {
+      "answer": "The Van der Linde gang is an outlaw gang featured in Red Dead Redemption 2, with Dutch van der Linde being its leader.",
+      "seconds": 2.3
+    },
+    "lora_hybrid_rag": {
+      "answer": "The Van der Linde gang is a notorious outlaw group featured in Red Dead Redemption 2, known for their involvement in various crimes and being the main antagonist faction.",
+      "seconds": 2.8
+    }
+  },
+  {
+    "question": "Who is Micah Bell?",
+    "base": {
+      "answer": "Micah Bell is a recurring character in the game Red Dead Redemption 2. He appears as a minor character and serves as one of Arthur Morgan's allies on the Marrow Bone gang during the late 1800s. Micah Bell is known for his kind and compassionate nature, which contrasts with the harsh life of the Wild West. Despite his gentle personality, he can be a valuable ally and is sometimes encountered near the beginning of the story when you first join the gang. He is not a central character but plays a role in some side missions and conversations within the game.",
+      "seconds": 6.4
+    },
+    "base_rag": {
+      "answer": "Micah Bell is a minor, deceased character mentioned in Red Dead Redemption 2. He is the paternal grandfather to Micah Bell III and Amos Bell, and was involved in criminal activities with his son, Micah Bell II. He passed away prior to 1899.",
+      "seconds": 3.1
+    },
+    "base_hybrid_rag": {
+      "answer": "Micah Bell is referred to as Micah Bell I, the paternal grandfather of Micah Bell III and Amos Bell. He was a minor character whose history involves involvement in criminal activities across the United States. The text does not provide specific details about his death date, but it mentions he was deceased by the year 1899.",
+      "seconds": 3.2
+    },
+    "lora": {
+      "answer": "Micah Bell is a bounty target and the main antagonist of the game's third chapter.",
+      "seconds": 1.7
+    },
+    "lora_rag": {
+      "answer": "Micah Bell III is a central character and the main antagonist of Red Dead Redemption 2.",
+      "seconds": 2.1
+    },
+    "lora_hybrid_rag": {
+      "answer": "Micah Bell is a minor, deceased character mentioned in Red Dead Redemption 2.",
+      "seconds": 1.9
+    }
+  },
+  {
+    "question": "What is Dead Eye?",
+    "base": {
+      "answer": "Dead Eye is an in-game ability available to players in Red Dead Redemption 2. It allows you to aim down sights on your weapons, improving your accuracy and enabling you to take down enemies from greater distances or with less effort. This feature can be particularly useful in certain situations where precise shots are needed.\n\nWhen using Dead Eye, your weapon's aim is locked onto the target, making it easier to hit enemies even if they move around slightly. The use of Dead Eye does consume ammunition, so it should be used strategically to conserve resources and maximize effectiveness.",
+      "seconds": 5.4
+    },
+    "base_rag": {
+      "answer": "Dead Eye is a targeting feature that allows Arthur Morgan to slow down time while shooting enemies, giving him better accuracy and the ability to hit critical areas of the target as he levels up the skill. It was introduced in Red Dead Redemption 2 and is available for both Arthur and John Marston.",
+      "seconds": 2.8
+    },
+    "base_hybrid_rag": {
+      "answer": "Dead Eye is a targeting ability that slows down time for Arthur Morgan in Red Dead Redemption 2. It allows him to carefully pick shots to cripple or kill enemies and also pinpoints critical areas of the target as he levels up the skill. Arthur can use this ability to aim for headshots if he enters Dead Eye mode while the core is full. The power of the ability increases as the player levels up, allowing more precise shots.",
+      "seconds": 5.4
+    },
+    "lora": {
+      "answer": "Dead Eye is a free action in Red Dead Redemption 2 that allows players to perform an untargetable headshot on a target, increasing their chances of killing them with a single bullet.",
+      "seconds": 3.7
+    },
+    "lora_rag": {
+      "answer": "Dead Eye is a targeting feature available to Arthur Morgan and John Marston, allowing them to slow down time and accurately aim at their targets.",
+      "seconds": 2.6
+    },
+    "lora_hybrid_rag": {
+      "answer": "Dead Eye is Arthur Morgan's targeting ability that slows time down to make precise shots on enemies easier.",
+      "seconds": 2.2
+    }
+  },
+  {
+    "question": "What are Stranger Missions?",
+    "base": {
+      "answer": "In Red Dead Redemption 2, Stranger Missions are special side missions that appear in certain areas of the game world. These missions are introduced when you become a Stranger, which happens after you complete the main story and leave Liberty City.\n\nStranger Missions allow you to engage with the environment more directly and interact with other characters, as well as complete tasks that aren't directly tied to the main storyline. They offer unique experiences and can be completed in various ways, such as by delivering items, completing challenges, or solving puzzles.\n\nSome key points about Stranger Missions:\n\n1. They can be found in specific areas marked on your map.\n2. You don't need to be near other players to complete them.\n3. You can choose to accept or ignore these missions.\n4. Completing them can earn you experience points for the Horse Latitudes expansion pack (if you have it).\n\nThese missions provide an opportunity to explore the game's world further and interact with the diverse cast of characters within it.",
+      "seconds": 10.7
+    },
+    "base_rag": {
+      "answer": "Stranger Missions, also known as Stranger Side Missions, are special missions given by Strangers (special NPC characters) in Red Dead Redemption 2. These missions are shorter than story missions and can be initiated and completed at any time. They are part of the larger mission set for the game. Completion of these missions can sometimes affect the player's honor and may reward cash and other bonuses.",
+      "seconds": 4.3
+    },
+    "base_hybrid_rag": {
+      "answer": "Stranger missions are short side-missions given by special NPC characters called Strangers. These missions are not part of the main story and can be initiated and completed at any time by the player. They appear on the map as a question mark icon. In Red Dead Redemption 2, there are 26 such missions, each part of a larger set of side-missions.",
+      "seconds": 4.5
+    },
+    "lora": {
+      "answer": "Stranger Missions are optional challenges that can be completed for rewards. They can be found in various locations across the map and require players to complete specific objectives.",
+      "seconds": 2.5
+    },
+    "lora_rag": {
+      "answer": "Stranger Missions are special NPC missions given by strangers to the player, which can be initiated and completed at any time, making them shorter than story missions.",
+      "seconds": 2.6
+    },
+    "lora_hybrid_rag": {
+      "answer": "Stranger Missions are special NPC character missions in Red Dead Redemption and Red Dead Redemption 2 that can be initiated and completed at any time, making them shorter than regular story missions.",
+      "seconds": 3.8
+    }
+  },
+  {
+    "question": "Who is John Marston?",
+    "base": {
+      "answer": "John Marston is the protagonist of Red Dead Redemption 2. He is a former U.S. Army sniper who was once a member of the Texas Rangers before he turned to a life of crime after his wife and daughter were killed by outlaws. Marston is haunted by his past actions and chooses not to kill anyone, even when faced with lethal threats. He lives in a morally gray world where he adheres to his own code of conduct but often finds himself at odds with other characters who have more traditional views on violence.",
+      "seconds": 5.6
+    },
+    "base_rag": {
+      "answer": "John Marston is a character in Red Dead Redemption 2, but the provided context does not give details about his character outside the game. In the game, John Marston is a Multiplayer character model that may be selected in the \"Zombies\" section of the Outfitter. Outside the game, John Marston is a real character with a backstory that includes being blinded in a bar fight and losing his father at a young age. He grew up in the north United States and eventually left to find work elsewhere.",
+      "seconds": 4.7
+    },
+    "base_hybrid_rag": {
+      "answer": "Based on the provided context, John Marston is a Multiplayer character model found in the \"Zombies\" section of the Outfitter in Red Dead Redemption 2. He does not appear to be a main character of the game. The context primarily discusses his background and origins in the game's lore rather than his status as a player character.",
+      "seconds": 4.1
+    },
+    "lora": {
+      "answer": "John Marston is the protagonist of Red Dead Online and Red Dead Redemption 2. He is a bounty target in Red Dead Redemption 2, wanted for murder and other crimes.",
+      "seconds": 3.6
+    },
+    "lora_rag": {
+      "answer": "John Marston is a Multiplayer character model that may be selected in the \"Zombies\" section of the Outfitter.",
+      "seconds": 2.2
+    },
+    "lora_hybrid_rag": {
+      "answer": "John Marston is a Multiplayer character model featured in Red Dead Online. He is known as Zombie Marston and is the protagonist of Red Dead Redemption and Red Dead Redemption 2.",
+      "seconds": 2.9
+    }
+  },
+  {
+    "question": "What is the role of horses in the game?",
+    "base": {
+      "answer": "Horses play a crucial role in Red Dead Redemption 2, serving as a primary mode of transportation and a way to interact with the environment. Here are some key aspects of how horses function in the game:\n\n1. **Transportation**: Horses allow you to travel quickly between various locations, including towns, settlements, and remote areas. You can use them to explore the vast open world of Red Dead Redemption 2.\n\n2. **Interaction**: Riding a horse lets you interact with various NPCs (Non-Player Characters) such as farmers, ranchers, and other locals. This interaction can lead to quests, conversations, and potentially rewarding encounters.\n\n3. **Gathering Resources**: On the trail, you can gather resources like wood, bones, and hides by riding your horse and using the appropriate tools. This helps you craft items, repair your horse, or sell items at the local general store.\n\n4. **Combat**: If you come across hostile bandits while riding, you can fight back on horseback. Using the horse as a mount allows you to maneuver around enemies and use your weapons more effectively.\n\n5. **Exploration and Exploration**: With a horse, you can cover more ground faster than on foot. This makes it easier to explore the game's expansive map",
+      "seconds": 12.8
+    },
+    "base_rag": {
+      "answer": "Horses play a crucial role in Red Dead Redemption 2, primarily for transportation and combat purposes. They can be driven to transport the player and goods, and can also be ridden to provide cover during attacks. Horses can also be ridden independently once released from a moving vehicle. Additionally, specific types like the Raven Black Shire are given to players in certain missions. Horses can be spawned and ridden throughout the game, though they might have some limitations, such as having no stats and potentially causing game corruption if improperly handled.",
+      "seconds": 6.1
+    },
+    "base_hybrid_rag": {
+      "answer": "In Red Dead Redemption 2, horses serve multiple roles for the player. They are used for transportation, allowing the player to move between locations. Horses can also be ridden for combat purposes, providing cover from attacks. Additionally, the game features an independent riding mechanic, where released horses can be used for additional mobility or as mounts. Horses can be bought and sold through Arthur Aitken's stable in the game.",
+      "seconds": 4.5
+    },
+    "lora": {
+      "answer": "Horses can be ridden for transportation and are used as mounts for combat and exploration. They can also be trained to perform specific tasks like riding, jumping, or running.",
+      "seconds": 2.8
+    },
+    "lora_rag": {
+      "answer": "Horses are used for riding, driving stagecoaches, and carrying items.",
+      "seconds": 1.5
+    },
+    "lora_hybrid_rag": {
+      "answer": "Horses in the game are used for riding, driving stagecoaches, and supplying horse supplies to the player.",
+      "seconds": 2.5
+    }
+  },
+  {
+    "question": "What is the setting of Red Dead Redemption 2?",
+    "base": {
+      "answer": "Red Dead Redemption 2 takes place in the post-Civil War American Old West, specifically in an area that spans the Wild West territories around 1894. This setting includes iconic locations like the Beersheba Hills, Blackwater River, and the High Hills Outlaws hideout, as well as the fictional state of Eden. The game immersively recreates the atmosphere of the Wild West era with its vast landscapes, diverse wildlife, and richly detailed towns and settlements.",
+      "seconds": 4.9
+    },
+    "base_rag": {
+      "answer": "The setting of Red Dead Redemption 2 is the dwindling American frontier in 1899.",
+      "seconds": 1.2
+    },
+    "base_hybrid_rag": {
+      "answer": "The setting of Red Dead Redemption 2 is the American frontier in 1899.",
+      "seconds": 1.1
+    },
+    "lora": {
+      "answer": "Red Dead Redemption 2 is set in the Wild West, specifically focusing on the states of New Austin and the Dakota Territory.",
+      "seconds": 2.3
+    },
+    "lora_rag": {
+      "answer": "The game's setting is in the American frontier in 1899.",
+      "seconds": 1.6
+    },
+    "lora_hybrid_rag": {
+      "answer": "The game takes place in the dwindling American frontier in 1899.",
+      "seconds": 1.7
+    }
+  },
+  {
+    "question": "Who is Sadie Adler?",
+    "base": {
+      "answer": "In Red Dead Redemption 2, Sadie Adler is the main character's wife and the mother of their children. She appears in several cutscenes throughout the game. Sadie is a significant part of Arthur Morgan's backstory and plays a crucial role in his life in both pre-game events and in-game story. Her absence from Arthur's life due to a tragic accident is one of the key factors that drives Arthur's actions in the game. Sadie has a strong influence on Arthur's character development and choices throughout the game.",
+      "seconds": 5.0
+    },
+    "base_rag": {
+      "answer": "Based on the provided context, Sadie Adler is a recurring character in the Red Dead Redemption 2 series. She is described as a central character who was married to Jake Adler and lived on a ranch together. The context does not provide any additional information about her after the events in the game.",
+      "seconds": 2.8
+    },
+    "base_hybrid_rag": {
+      "answer": "Based on the provided context, Sadie Adler is a central character in Red Dead Redemption 2. She is a recurring character from the Red Dead series, appearing as a central figure in Red Dead Redemption 2 and as a stranger in Red Dead Online. Sadie Adler learns hunting and horseback riding during her youth and marries Jake Adler, with whom she shares a ranch in the state of Ambarino. The context also mentions her presence in Red Dead Online through a mission called \"Mrs. Sadie Adler, Widow.\"",
+      "seconds": 5.0
+    },
+    "lora": {
+      "answer": "Sadie Adler is a minor character in Red Dead Online, mentioned but not appearing in the game.",
+      "seconds": 1.7
+    },
+    "lora_rag": {
+      "answer": "Sadie Adler is a character in Red Dead Redemption 2 who shares her husband Jake Adler's life on a ranch in Ambarino.",
+      "seconds": 2.5
+    },
+    "lora_hybrid_rag": {
+      "answer": "Sadie Adler is a recurring character in the Red Dead series, appearing as a central character in Red Dead Redemption 2. She is also a mission target in Red Dead Redemption 2.",
+      "seconds": 3.3
+    }
+  },
+  {
+    "question": "What is Guarma?",
+    "base": {
+      "answer": "In Red Dead Redemption 2, Guarma is the name of one of the major factions in the game's post-WWII Western world. It was originally established by Jesse James and his gang, but it has evolved into a significant criminal organization that operates across the United States.\n\nGurma is known for its vast network of operations and its involvement in various illegal activities, including bank heists, drug trafficking, and protection rackets. The group is notorious for its brutal methods and is a major rival to other crime syndicates and gangs in the game, such as the Van Der Linde and the Dutch Van der Linde family.\n\nThe Guarma gang has several leaders, with the main ones being:\n\n1. **Jesse James**: The original founder and former leader.\n2. **Mason**: A new generation leader who took over after Jesse's death.\n\nDespite being a powerful criminal organization, Guarma faces increasing challenges from other factions, especially as the game progresses and the player's influence grows.",
+      "seconds": 9.3
+    },
+    "base_rag": {
+      "answer": "Gurma is a tropical island in the Caribbean Sea, east of Cuba. It is visited during the game's fifth chapter and is part of the main storyline, particularly for the missions in that chapter. The island has a hot and humid climate with jungles, and it contains various structures occupied by Cuban Military and opposing Guarma Rebels.",
+      "seconds": 3.3
+    },
+    "base_hybrid_rag": {
+      "answer": "Gurma is a tropical island in the Caribbean Sea, part of the landscape explored in the fifth chapter of Red Dead Redemption 2. It is known for its hot and humid climate, jungles, and exotic wildlife. The island serves as the backdrop for various missions and contains settlements occupied by the Cuban Military and opposing Guarma Rebels.",
+      "seconds": 3.3
+    },
+    "lora": {
+      "answer": "Gurma is an abandoned town in the Nuevo Paraíso region of the New Austin territory, where it is located in the center of the map.",
+      "seconds": 2.6
+    },
+    "lora_rag": {
+      "answer": "Gurma is a tropical island in the Caribbean Sea that is visited during the game's fifth chapter.",
+      "seconds": 1.9
+    },
+    "lora_hybrid_rag": {
+      "answer": "Gurma is a tropical island in the Caribbean Sea, east of Cuba that is visited during the game's fifth chapter.",
+      "seconds": 2.1
+    }
+  },
+  {
+    "question": "What are the main weapons in the game?",
+    "base": {
+      "answer": "In Red Dead Redemption 2, you'll have access to a variety of weapons that you can use to defend yourself, hunt, and engage enemies. Here are some of the main types and categories of weapons available in the game:\n\n### Primary Weapons\n1. **Rifles**\n   - **Remington 870**: A versatile shotgun with different barrel lengths for different purposes.\n   - **Winchester 94**: A powerful lever-action rifle, excellent for long-range shooting.\n   - **Springfield Armory M1A**: A reliable semi-automatic rifle, good for both close and medium range.\n\n2. **Pistols**\n   - **Colt Single Action Army (SAA)**: A classic six-shooter revolver.\n   - **Smith & Wesson Model 29**: A powerful revolver with a high magazine capacity.\n\n3. **Shotguns**\n   - **Remington 870**: Useful for close combat and hunting small animals.\n   - **Benelli M3 Super90**: A heavy-duty shotgun with a large magazine capacity and multiple barrels.\n\n### Secondary Weapons\n1. **Bows and Arrows**\n   - **Bow and Arrow**: Effective for long-range hunting and combat.\n\n2. **Spears**",
+      "seconds": 11.9
+    },
+    "base_rag": {
+      "answer": "The main weapons in Red Dead Redemption 2 are revolvers and rifles, which were introduced across the games as part of the combat and gunplay mechanics.",
+      "seconds": 1.6
+    },
+    "base_hybrid_rag": {
+      "answer": "The main weapons in Red Dead Redemption 2 are revolvers and rifles. These weapons are introduced across the games and players can upgrade them. There's also a weapon degeneration system.",
+      "seconds": 1.9
+    },
+    "lora": {
+      "answer": "The main weapons in Red Dead Redemption 2 include pistols, revolvers, shotguns, and rifles.",
+      "seconds": 1.9
+    },
+    "lora_rag": {
+      "answer": "The main weapons in the game are Hewing Hatchet and Viking Hatchet.",
+      "seconds": 1.5
+    },
+    "lora_hybrid_rag": {
+      "answer": "The main weapons in the game are the Hewing Hatchet and the Viking Hatchet.",
+      "seconds": 1.7
+    }
+  },
+  {
+    "question": "What is camp in Red Dead Redemption 2?",
+    "base": {
+      "answer": "In Red Dead Redemption 2, \"Camp\" refers to a structure that serves as a temporary base of operations for the player's character. It's essentially a place where you can rest, store supplies, and make repairs on your horse. Here are some key points about camps:\n\n1. **Location**: You can build camps at any location in the game world. They are not tied to specific locations but can be placed anywhere.\n\n2. **Purpose**:\n   - **Resting**: You can stay overnight in a camp, which allows you to recover health, stamina, and reload your revolver.\n   - **Supply Storage**: You can store various items like ammunition, food, and other supplies in the camp, making it easy to have access to these items when needed.\n   - **Horse Repair**: If your horse gets injured or has low stamina, you can take it to the camp to repair it, giving it back its full strength and stamina.\n\n3. **Customization**: Players can customize their camps by adding furniture and decorations to make them more appealing. This includes things like beds, tables, chairs, and even small gardens.\n\n4. **Multiple Camps**: The game allows you to build multiple camps, each with different layouts and designs. This gives you the",
+      "seconds": 12.0
+    },
+    "base_rag": {
+      "answer": "Camp in Red Dead Redemption 2 refers to various structures like Fort Riggs, which is an abandoned holding camp in the Big Valley region. In the provided context, there is no specific mention of a \"camp\" as in the sense of a temporary shelter or gathering place in Red Dead Redemption 2 similar to Bearclaw Camp mentioned in the first context. The term \"camp\" in this context appears to refer to more permanent structures, possibly railway camps, rather than the typical Red Dead Redemption 2 camps.",
+      "seconds": 4.8
+    },
+    "base_hybrid_rag": {
+      "answer": "The context provided does not contain information about a camp in Red Dead Redemption 2. It only mentions an abandoned Indian camp named Mescalero in the Red Dead series, but does not discuss any camps within the game itself. Therefore, the available information does not answer the question.",
+      "seconds": 2.8
+    },
+    "lora": {
+      "answer": "Camp in Red Dead Redemption 2 refers to temporary camps, typically located near rivers or lakes, where players can rest, heal, and buy supplies from the camp's vendors.",
+      "seconds": 3.1
+    },
+    "lora_rag": {
+      "answer": "Camp in Red Dead Redemption 2 refers to a cluster of rotting log cabins and huts in the Tall Trees region of the West Elizabeth territory.",
+      "seconds": 2.7
+    },
+    "lora_hybrid_rag": {
+      "answer": "Mescalero is an abandoned Indian camp in Red Dead Redemption and Red Dead Redemption 2.",
+      "seconds": 1.8
+    }
+  },
+  {
+    "question": "Who is Hosea Matthews?",
+    "base": {
+      "answer": "Hosea Matthews is a character in the open world game Red Dead Redemption 2, based on the novel \"The Last of the Mohicans.\" He is a member of the Matthews family and a frontiersman who joins Arthur Morgan and his mob in their escape from Los Poblenos.\n\nHosea is initially a neutral character who joins the player's gang due to his dissatisfaction with Los Poblenos. He is described as having a \"soft spot\" for Arthur and often takes care of him when he's sick. Despite his initial support, Hosea eventually leaves the gang, leading Arthur to be left alone in the wilderness.\n\nIn the game, Hosea's absence serves as a reminder of Arthur's past and the consequences of his actions, especially those related to the Hatfields and McCoys feud. His character development reflects themes of loyalty, survival, and personal growth that are central to the game's narrative.",
+      "seconds": 9.0
+    },
+    "base_rag": {
+      "answer": "Hosea Matthews is a central character in Red Dead Redemption 2. He is of English descent and has a complex background involving his father and his relationship with Bessie Matthews.",
+      "seconds": 1.8
+    },
+    "base_hybrid_rag": {
+      "answer": "Hosea Matthews is a central character in Red Dead Redemption 2. He was born in the Appalachian Mountains and has a strong connection with his father despite only seeing him for a short time. Hosea married Bessie Matthews, and they were together even though Hosea drifted back into a life of crime. Bessie was described as kind and caring, but she died early, which troubled Hosea. Hosea eventually formed the Van der Linde gang with Dutch van der Linde.",
+      "seconds": 4.7
+    },
+    "lora": {
+      "answer": "Hosea Matthews is a minor character in Red Dead Online.",
+      "seconds": 1.2
+    },
+    "lora_rag": {
+      "answer": "Hosea Matthews is a central character featured in Red Dead Redemption 2.",
+      "seconds": 1.5
+    },
+    "lora_hybrid_rag": {
+      "answer": "Hosea Matthews is a central character featured in Red Dead Redemption 2.",
+      "seconds": 1.5
+    }
+  },
+  {
+    "question": "What is the story premise of Red Dead Redemption 2?",
+    "base": {
+      "answer": "Red Dead Redemption 2 is set in the post-WWII American Old West, and it continues the story of Arthur Morgan from the previous game, Red Dead Redemption. The game picks up where the events of Red Dead Redemption left off, with Arthur Morgan now living in San Andreas, a town on the border between the United States and Mexico.\n\nThe main story of Red Dead Redemption 2 revolves around Arthur Morgan's attempt to create a new life for himself in San Andreas. He wants to leave his past behind and start anew, but he also faces challenges as he tries to rebuild his family and community. However, his efforts are complicated by his desire to protect his brother, Johnson, who has been arrested by the lawmen for his involvement in the events of Red Dead Redemption.\n\nThroughout the game, players take control of Arthur Morgan as he navigates the harsh and unforgiving world of the Wild West, dealing with various quests, enemies, and moral dilemmas that challenge him to make difficult choices. The game is filled with action, adventure, and narrative-driven storytelling, providing an immersive experience that allows players to experience the character's journey and decisions firsthand.",
+      "seconds": 10.8
+    },
+    "base_rag": {
+      "answer": "The story premise of Red Dead Redemption 2 is set in the waning American frontier in 1899. It follows Arthur Morgan, a seasoned member of Dutch van der Linde's outlaw gang. As internal divisions within the gang threaten to break it apart, Arthur must decide between his own beliefs and his loyalty to the gang.",
+      "seconds": 3.3
+    },
+    "base_hybrid_rag": {
+      "answer": "The story premise of Red Dead Redemption 2 involves Arthur Morgan, a member of Dutch van der Linde's outlaw gang, navigating a world in decline during 1899 in the American frontier. As internal divisions within the gang grow, Arthur must decide between his personal values and his loyalty to the group he grew up with. The game takes place after the events of Red Dead Redemption, set in a world expanding with new states and regions, including Ambarino, New Hanover, and Lemoyne.",
+      "seconds": 5.0
+    },
+    "lora": {
+      "answer": "The game is set in a fictionalized version of the American West, focusing on the lives of Arthur Morgan and his gang after they escape from prison. It involves a variety of storylines and missions, including tracking down wanted criminals, settling disputes, and completing various side quests.",
+      "seconds": 4.9
+    },
+    "lora_rag": {
+      "answer": "The story premise of Red Dead Redemption 2 is set in the dwindling American frontier in 1899, following Arthur Morgan, a seasoned member of Dutch van der Linde's notorious outlaw gang.",
+      "seconds": 3.8
+    },
+    "lora_hybrid_rag": {
+      "answer": "The story premise of Red Dead Redemption 2 is set in the dying American frontier in 1899, where Arthur Morgan, a member of Dutch van der Linde's outlaw gang, makes a choice between his own ideals and loyalty to the gang.",
+      "seconds": 4.7
+    }
+  }
+]
