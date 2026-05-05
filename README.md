@@ -15,36 +15,53 @@ Six inference pipelines are compared simultaneously:
 | Mode | RAG | Retrieval | LoRA | Reranker |
 |------|-----|-----------|------|----------|
 | `base` | ❌ | — | ❌ | ❌ |
-| `base_rag` | ✅ | Dense | ❌ | ✅ |
+| `base_rag` | ✅ | Dense only | ❌ | ✅ |
 | `base_hybrid_rag` | ✅ | BM25 + Dense | ❌ | ✅ |
 | `lora` | ❌ | — | ✅ | ❌ |
-| `lora_rag` | ✅ | Dense | ✅ | ✅ |
+| `lora_rag` | ✅ | Dense only | ✅ | ✅ |
 | `lora_hybrid_rag` | ✅ | BM25 + Dense | ✅ | ✅ |
+
+**Hybrid retrieval** (`base_hybrid_rag`, `lora_hybrid_rag`) fuses two independent
+ranked lists with Reciprocal Rank Fusion (RRF, k=60), then reranks the merged
+pool with a cross-encoder before passing the top-3 chunks to the generator:
+
+1. ChromaDB dense search — `all-MiniLM-L6-v2` embeddings, top-10
+2. BM25 keyword search — `rank_bm25`, top-10
+3. RRF: `score = Σ 1 / (60 + rank_i)` across both retrievers
+4. Cross-encoder reranker — `ms-marco-MiniLM-L-6-v2`, top-3 kept
 
 ---
 
 ## System Architecture
 
+Three distinct retrieval paths feed into the same generator:
+
 ```
-User Question
-    │
-    ├─── [RAG path] ──────────────────────────────────────────┐
-    │        │                                                 │
-    │   Dense retrieval          BM25 retrieval                │
-    │   (ChromaDB + MiniLM)      (rank_bm25)                   │
-    │        └──────── RRF fusion ────────────┘                │
-    │                       ↓                                  │
-    │              Cross-encoder reranker                      │
-    │              top-6 → top-3 chunks                        │
-    │                       ↓                                  │
-    │              Grounded prompt                             │
-    │                                                          │
-    └─── [Direct path] ───────────────────────────────────────┘
-                           ↓
-              Qwen2.5-3B-Instruct (4-bit NF4)
-              + optional LoRA adapter (qwen25_rdr2_lora_v2)
-                           ↓
-                      Final Answer
+                        User Question
+                             │
+         ┌───────────────────┼──────────────────────┐
+         │                   │                      │
+    [base / lora]      [base_rag /           [base_hybrid_rag /
+    no retrieval        lora_rag]             lora_hybrid_rag]
+         │                   │                      │
+         │        ChromaDB vector search   ChromaDB (top-10)
+         │        all-MiniLM-L6-v2              +
+         │        top-6 chunks            BM25 / rank_bm25 (top-10)
+         │                   │                      │
+         │                   │            RRF fusion (k=60)
+         │                   │            merged candidate pool
+         │                   │                      │
+         │           cross-encoder reranker (ms-marco-MiniLM-L-6-v2)
+         │                   top-6 → top-3 chunks
+         │                   │                      │
+         │           grounded prompt ───────────────┘
+         │                   │
+         └───────────────────┘
+                        │
+           Qwen2.5-3B-Instruct (4-bit NF4)
+           ± LoRA adapter  (qwen25_rdr2_lora_v2)
+                        │
+                   Final Answer
 ```
 
 ---
@@ -166,6 +183,11 @@ python build_rag_from_jsonl.py
 - Chunk size: 700 chars, 150-char overlap
 - Output: `chroma_db/`
 
+> **Hybrid retrieval note:** the BM25 index (`rank_bm25`) is built lazily at
+> inference time by reading all chunks out of ChromaDB — no extra build step needed.
+> Dense retrieval uses ChromaDB; hybrid retrieval uses both ChromaDB and BM25,
+> fused with Reciprocal Rank Fusion before reranking.
+
 ---
 
 ### 4. Generate LoRA training data
@@ -275,19 +297,6 @@ python evaluate_lora_vs_rag.py --questions eval_questions.json --modes base lora
 | 💀 | `lora` | Hallucinates without RAG; LoRA alone needs more training |
 
 RAG quality is the dominant factor. LoRA adds minor style improvements but does not replace retrieval for factual accuracy.
-
----
-
-## Hybrid Retrieval
-
-`retrieve_chunks_hybrid()` in `infer_compare_all.py` combines:
-
-1. **Dense** — ChromaDB top-10 by cosine similarity
-2. **BM25** — `rank_bm25` top-10 by term overlap
-3. **RRF fusion** — Reciprocal Rank Fusion (k=60) merges both ranked lists
-4. **Reranker** — cross-encoder re-scores merged pool, keeps top-3
-
-RRF score: `Σ 1 / (k + rank_i)` for each retriever.
 
 ---
 
