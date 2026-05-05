@@ -32,13 +32,29 @@ Thumbs.db
 .env.*
 *.env
 
-# Model / training outputs
+# Model / training outputs (weights too large for git)
 outputs/
-lora_data/
 chroma_db/
 
-# Raw or generated data
-raw_docs/
+# Intermediate / unfiltered data (can be regenerated)
+lora_data/rdr2_lora_train_qa.jsonl
+
+# Tracked data files (exceptions — do not re-ignore):
+# lora_data/rdr2_lora_source_qa.jsonl
+# lora_data/rdr2_lora_train_filtered.jsonl
+# lora_data/test100_*.jsonl
+# raw_docs/rdr2_root_raw.jsonl
+# raw_docs/rdr2_rag.jsonl
+# raw_docs/rdr2_root_titles.json
+
+# Crawl logs and bulk API dumps
+raw_docs/rdr2_api.jsonl
+raw_docs/rdr2_api_bulk.jsonl
+raw_docs/rdr2_root_crawl_log.json
+raw_docs/rdr2_category_crawl_log.json
+raw_docs/rdr2_titles_discovered.json
+
+# Evaluation results (too noisy to track)
 evaluation_results.json
 
 # Temporary / archive folders
