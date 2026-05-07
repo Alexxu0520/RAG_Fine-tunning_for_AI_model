@@ -69,3 +69,4 @@ old/
 *.sqlite3
 
 # Keep git metadata itself tracked by Git, do not ignore .git/
+RDR2_Progress_Report.pptx
