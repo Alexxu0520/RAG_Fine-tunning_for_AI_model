@@ -26,9 +26,9 @@ parser.add_argument("--output",        default="bertscore_results.json")
 parser.add_argument("--model",         default="distilbert-base-uncased")
 args = parser.parse_args()
 
-with open(args.ground_truth) as f:
+with open(args.ground_truth, encoding="utf-8") as f:
     gt = json.load(f)
-with open(args.eval_results) as f:
+with open(args.eval_results, encoding="utf-8") as f:
     results = json.load(f)
 
 gt_map = {d["question"]: d["answer"] for d in gt}
