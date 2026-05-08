@@ -300,25 +300,27 @@ RAG quality is the dominant factor. LoRA adds minor style improvements but does 
 
 ### BERTScore evaluation
 
-20 hand-written reference answers (`eval_ground_truth.json`) were used to compute
-BERTScore (distilbert-base-uncased) across all 6 modes
-(`bertscore_results.json`, `run_bertscore.py`):
+198 LLM-written reference answers (`eval_ground_truth_200.json`) were used to compute
+BERTScore (distilbert-base-uncased) across all 6 modes on 198 questions
+(`bertscore_results_200.json`, `run_bertscore.py`).
+The reference answers are fully independent of the LoRA training data.
 
 | Mode | Precision | Recall | F1 |
 |------|-----------|--------|----|
-| `base` | 0.7343 | 0.7850 | 0.7583 |
-| `base_rag` | 0.7942 | 0.7874 | 0.7904 |
-| `base_hybrid_rag` | 0.7939 | 0.7888 | **0.7908** |
-| `lora` | 0.8187 | 0.7574 | 0.7865 |
-| `lora_rag` | 0.8258 | 0.7538 | 0.7875 |
-| `lora_hybrid_rag` | 0.8230 | 0.7542 | 0.7864 |
+| `base` | 0.7227 | 0.7842 | 0.7518 |
+| `base_rag` | 0.7880 | 0.7958 | **0.7915** |
+| `base_hybrid_rag` | 0.7866 | 0.7956 | 0.7906 |
+| `lora` | 0.8014 | 0.7509 | 0.7748 |
+| `lora_rag` | 0.8144 | 0.7620 | 0.7867 |
+| `lora_hybrid_rag` | 0.8148 | 0.7605 | 0.7861 |
 
 Key observations:
 
-- **`base` is clearly worst** (F1 0.758) — hallucinations produce semantically distant answers.
-- **LoRA modes have high Precision but low Recall** — fine-tuning produces concise, on-target answers but covers less of the reference than RAG modes do.
-- **`base_hybrid_rag` edges out `lora_hybrid_rag` on F1** (0.791 vs 0.786) — qualitative preference for the LoRA variant reflects answer style (conciseness), not semantic coverage.
-- **The top 5 modes are tightly clustered** (F1 0.786–0.791, Δ < 0.005) — retrieval is the dominant quality factor; LoRA's contribution is not detectable at this scale via BERTScore alone.
+- **`base` is clearly worst** (F1 0.752, gap +0.040 vs best) — hallucinations produce semantically distant answers across all question types.
+- **`base_rag` has the highest F1** (0.792) — RAG alone is the most effective intervention; adding LoRA does not improve semantic coverage at this model scale.
+- **LoRA modes have high Precision but low Recall** — fine-tuning produces concise, on-target answers but covers less of the reference content than RAG modes.
+- **hybrid vs dense-only gap is negligible** (Δ < 0.001 F1) — BERTScore cannot distinguish the two retrieval strategies; hybrid's advantage likely lies in recall on rare proper nouns, which this metric underweights.
+- **Retrieval is the dominant quality factor**; LoRA's contribution at 3B scale is primarily stylistic (shorter, more direct answers) rather than a measurable semantic improvement.
 
 ---
 

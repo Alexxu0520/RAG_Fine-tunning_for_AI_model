@@ -63,7 +63,7 @@ for mode in modes:
     s = mode_scores[mode]
     print(f"{mode:<22} {s['n']:>4} {s['P']:>10.4f} {s['R']:>10.4f} {s['F1']:>10.4f}")
 
-with open(args.output, "w") as f:
+with open(args.output, "w", encoding="utf-8") as f:
     json.dump(mode_scores, f, indent=2)
 print(f"\nSaved to {args.output}")
 
